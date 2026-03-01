@@ -159,7 +159,7 @@ IndiaGuide is built as a **fully open-source web application**.
 | Name | Role | GitHub |
 |------|------|--------|
 | Nikhil Karur | Team Lead / Full Stack | [@Nikhilkarur](https://github.com/Nikhilkarur) |
-| RAGHU PRASAD MANOJ KASYAP | Problem Statement / Research | — |
+| RAGHU PRASAD MANOJ KASYAP | Problem Statement / Research | https://github.com/manojkasyap29 |
 | ABHIRAM | Features & Backend | — |
 
 > Replace teammate names and GitHub handles above with actual details.
