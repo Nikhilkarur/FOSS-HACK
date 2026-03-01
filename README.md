@@ -16,13 +16,6 @@
 
 ---
 
-<!--
-=============================================================================
-  SECTION OWNER: TEAMMATE 2 — PROBLEM STATEMENT
-  Edit everything between this block and the next section marker.
-=============================================================================
--->
-
 ## 🚨 Problem Statement
 
 India welcomes millions of international tourists every year, yet navigating the country remains one of the most overwhelming experiences for foreign visitors. Despite holding a valid visa, tourists frequently face critical challenges:
@@ -36,13 +29,6 @@ India welcomes millions of international tourists every year, yet navigating the
 **Our Solution:** *IndiaGuide* bridges this gap by building a government-integrated, open-source web platform that serves as a single, trusted companion for every tourist visiting India — from landing at the airport to safely completing their journey.
 
 ---
-
-<!--
-=============================================================================
-  SECTION OWNER: TEAMMATE 3 — FEATURES & IMPLEMENTATION
-  Edit everything between this block and the next section marker.
-=============================================================================
--->
 
 ## ✨ Features & Implementation
 
@@ -101,13 +87,6 @@ India welcomes millions of international tourists every year, yet navigating the
 
 ---
 
-<!--
-=============================================================================
-  SECTION OWNER: TEAMMATE 1 — TECH STACK
-  Edit everything between this block and the next section marker.
-=============================================================================
--->
-
 ## 🛠️ Tech Stack
 
 IndiaGuide is built as a **fully open-source web application**.
@@ -158,11 +137,9 @@ IndiaGuide is built as a **fully open-source web application**.
 
 | Name | Role | GitHub |
 |------|------|--------|
-| Nikhil Karur | Team Lead / Full Stack | [@Nikhilkarur](https://github.com/Nikhilkarur) |
-| Teammate 2 | Problem Statement / Research | — |
-| Teammate 3 | Features & Backend | — |
-
-> Replace teammate names and GitHub handles above with actual details.
+| Nikhil Karur | Team Lead / Tech Stack | [@Nikhilkarur](https://github.com/Nikhilkarur) |
+| Abhiram | Features & Implementation | [@abhirambuilds](https://github.com/abhirambuilds) |
+| Manoj Kasyap | Problem Statement / Research | [@manojkasyap29](https://github.com/manojkasyap29) |
 
 ---
 
