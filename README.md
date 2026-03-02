@@ -153,6 +153,9 @@ IndiaGuide is built as a **fully open-source web application**.
 - Community contributions are welcome via Pull Requests.
 
 ---
+### ⚙️ Manoj's Progress (Backend Development)
+
+- **Day 1**: Implemented secure tourist authentication using JWT and OAuth 2.0. Drafted the backend REST API routes and began researching the SOS alerts messaging queue.
 
 ## 👥 Team
 
