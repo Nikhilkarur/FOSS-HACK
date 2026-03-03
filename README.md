@@ -35,4 +35,36 @@ NutriScan is an open-source tool that lets you **scan the back of any snack or f
 ---
 
 ## Tech Stack (Planned)
+| Component | Technology |
+|---|---|
+| OCR / Image Processing | Tesseract OCR / OpenCV |
+| Dataset | Kaggle Food Datasets / Open Food Facts |
+| Backend | Python / FastAPI |
+| Frontend | React / Flutter (TBD) |
+| ML / NLP | spaCy / scikit-learn |
 
+---
+
+## Dataset Sources
+
+- [Open Food Facts](https://world.openfoodfacts.org/) - Open-source food product database  
+- [Kaggle Food Datasets](https://www.kaggle.com/) - Community nutritional datasets  
+- Custom ingredient-nutrition mapping from publicly available sources  
+
+---
+
+## Project Status
+
+Currently in early development as part of **FOSS Hack**.
+
+---
+
+## Contributing
+
+Contributions, dataset suggestions, and feature ideas are welcome! Feel free to open an issue or submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the terms found in the [LICENSE](LICENSE) file.
