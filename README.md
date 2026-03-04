@@ -28,6 +28,15 @@ No corporate jargon. No hidden sugars. Just simple, readable facts.
 
 ---
 
+## 🤖 Why Not Just Take a Picture with Gemini or ChatGPT?
+
+While general-purpose AI is powerful, **NutriScan is purpose-built for speed and utility in a grocery store aisle.**
+
+1.  **Instant Structured Data, Not a Conversation**: General LLMs (like Gemini) return paragraphs of text. You have to read through a conversational response to find out if the snack is safe. NutriScan instantly flashes a red/green/yellow score, highlights specific harmful ingredients, and presents data visually. It’s a 1-second interaction, not a reading exercise.
+2.  **Zero-Prompting Diet Profile**: With Gemini, you have to type or speak your dietary restrictions every single time: *"Here is an image of ingredients. Tell me if it violates my Keto diet or my peanut allergy."* NutriScan saves your specific dietary profile once. You just point the camera, and it automatically tests the ingredients against your saved restrictions without you ever having to ask.
+
+---
+
 ## ⚙️ How It Works (Architecture Flow)
 
 ```text
