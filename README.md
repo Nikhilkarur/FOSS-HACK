@@ -131,6 +131,16 @@ Example response from `POST /api/scan`:
 }
 ```
 
+### 6. Deployment Plan
+
+The planned deployment architecture for NutriScan:
+
+*   **Frontend** → Vercel or Netlify
+*   **Backend** → FastAPI server (Docker container)
+*   **Database** → PostgreSQL (Supabase / Neon)
+*   **OCR Engine** → Tesseract running in backend container
+
+This setup allows the application to scale easily while keeping the OCR and ingredient analysis services centralized.
 
 ---
 ## 🚀 Getting Started (Local Development)
