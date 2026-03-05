@@ -130,6 +130,17 @@ Example response from `POST /api/scan`:
   ]
 }
 ```
+### 5. Error Handling
+
+The API returns standard HTTP error responses when a request fails.
+
+Status Code	Meaning
+400	Invalid image or request data
+404	User profile not found
+500	OCR or ingredient processing failed
+
+The frontend should handle these responses and show appropriate error messages to the user.
+---
 
 ### 6. Deployment Plan
 
