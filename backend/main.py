@@ -5,11 +5,14 @@ import models
 from database import engine, get_db
 from ocr_engine import extract_text_from_image
 from nlp_parser import clean_ingredient_text
+import user_routes
 
 # Create tables if they don't exist yet
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="NutriScan API", description="Backend for the NutriScan App")
+
+app.include_router(user_routes.router, prefix="/api")
 
 
 @app.get("/")

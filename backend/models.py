@@ -4,6 +4,7 @@ from database import Base
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
     dietary_preference = Column(String, nullable=True)
 
 class IngredientData(Base):
