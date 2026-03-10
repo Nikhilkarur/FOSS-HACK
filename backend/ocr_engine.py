@@ -23,6 +23,10 @@ def extract_text_from_image(image_file):
 			image = Image.open(image_file)
 
 		image = image.convert("RGB")
+		
+		# Preprocess the image to remove noise, binarize, and enhance text for OCR
+		from preprocessor import preprocess_image_for_ocr
+		image = preprocess_image_for_ocr(image)
 
 		# Use image_to_data to get block-level information so we can
 		# prioritize dense (high-resolution) text blocks.
