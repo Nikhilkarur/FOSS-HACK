@@ -1,4 +1,8 @@
-from fastapi import FastAPI, Depends, File, UploadFile, Form
+from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi import FastAPI, Depends, File, UploadFile, Form, Request
 from typing import Optional
 from sqlalchemy.orm import Session
 
@@ -13,7 +17,21 @@ import analytics_routes
 # Create tables if they don't exist yet
 models.Base.metadata.create_all(bind=engine)
 
+limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="NutriScan API", description="Backend for the NutriScan App")
+
+# Apply Rate Limiter
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Apply CORS Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(user_routes.router, prefix="/api")
 app.include_router(history_routes.router, prefix="/api")
@@ -21,12 +39,15 @@ app.include_router(analytics_routes.router, prefix="/api")
 
 
 @app.get("/")
-def read_root():
+@limiter.limit("20/minute")
+def read_root(request: Request):
     return {"status": "NutriScan API is running"}
 
 
 @app.post("/api/scan")
+@limiter.limit("10/minute")
 async def scan_product(
+    request: Request,
     file: UploadFile = File(...),
     user_id: Optional[int] = Form(None),
     product_name: Optional[str] = Form(None),
@@ -100,7 +121,9 @@ async def scan_product(
 
 
 @app.get("/api/scan/barcode/{barcode}")
+@limiter.limit("15/minute")
 def scan_barcode(
+    request: Request,
     barcode: str,
     user_id: Optional[int] = None,
     db: Session = Depends(get_db)
