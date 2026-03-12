@@ -14,6 +14,7 @@ import user_routes
 import history_routes
 import analytics_routes
 import suggestion_routes
+import notification_routes
 
 # Create tables if they don't exist yet
 models.Base.metadata.create_all(bind=engine)
@@ -38,6 +39,7 @@ app.include_router(user_routes.router, prefix="/api")
 app.include_router(history_routes.router, prefix="/api")
 app.include_router(analytics_routes.router, prefix="/api")
 app.include_router(suggestion_routes.router, prefix="/api")
+app.include_router(notification_routes.router, prefix="/api")
 
 
 @app.get("/")
@@ -112,6 +114,16 @@ async def scan_product(
         )
         db.add(scan_entry)
         db.commit()
+
+        # Create a notification if the scanned product is unhealthy
+        if verdict == "Unhealthy":
+            notif_message = f"You scanned an unhealthy product: {product_name or 'Unknown'}"
+            notification = models.Notification(
+                user_id=user_id,
+                message=notif_message,
+            )
+            db.add(notification)
+            db.commit()
 
     suggested_alternatives = []
     if verdict == "Unhealthy":
