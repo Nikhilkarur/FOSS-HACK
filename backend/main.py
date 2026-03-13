@@ -2,7 +2,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from fastapi import FastAPI, Depends, File, UploadFile, Form, Request
+from fastapi import FastAPI, Depends, File, UploadFile, Form, Request, BackgroundTasks
 from typing import Optional
 from sqlalchemy.orm import Session
 
@@ -50,10 +50,47 @@ def read_root(request: Request):
     return {"status": "NutriScan API is running"}
 
 
+def _save_scan_to_db(
+    db: Session,
+    user_id: int,
+    product_name: Optional[str],
+    health_score: float,
+    verdict: str,
+    nutrition: dict,
+    scanned_ing_models: list,
+):
+    """Background task: saves scan result to DB and creates a notification if unhealthy."""
+    scan_entry = models.ScanHistory(
+        user_id=user_id,
+        product_name=product_name,
+        health_score=health_score,
+        verdict=verdict,
+        calories=nutrition.get("calories"),
+        fat_g=nutrition.get("fat_g"),
+        sat_fat_g=nutrition.get("sat_fat_g"),
+        trans_fat_g=nutrition.get("trans_fat_g"),
+        sodium_mg=nutrition.get("sodium_mg"),
+        carbs_g=nutrition.get("carbs_g"),
+        fiber_g=nutrition.get("fiber_g"),
+        sugar_g=nutrition.get("sugar_g"),
+        protein_g=nutrition.get("protein_g"),
+        ingredients=scanned_ing_models,
+    )
+    db.add(scan_entry)
+    db.commit()
+
+    if verdict == "Unhealthy":
+        notif_message = f"You scanned an unhealthy product: {product_name or 'Unknown'}"
+        notification = models.Notification(user_id=user_id, message=notif_message)
+        db.add(notification)
+        db.commit()
+
+
 @app.post("/api/scan")
 @limiter.limit("10/minute")
 async def scan_product(
     request: Request,
+    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     user_id: Optional[int] = Form(None),
     product_name: Optional[str] = Form(None),
@@ -97,35 +134,12 @@ async def scan_product(
     else:
         verdict = "Unhealthy"
 
+    # Offload DB write to background so the API responds immediately
     if user_id is not None:
-        scan_entry = models.ScanHistory(
-            user_id=user_id,
-            product_name=product_name,
-            health_score=health_score,
-            verdict=verdict,
-            calories=nutrition.get("calories"),
-            fat_g=nutrition.get("fat_g"),
-            sat_fat_g=nutrition.get("sat_fat_g"),
-            trans_fat_g=nutrition.get("trans_fat_g"),
-            sodium_mg=nutrition.get("sodium_mg"),
-            carbs_g=nutrition.get("carbs_g"),
-            fiber_g=nutrition.get("fiber_g"),
-            sugar_g=nutrition.get("sugar_g"),
-            protein_g=nutrition.get("protein_g"),
-            ingredients=scanned_ing_models
+        background_tasks.add_task(
+            _save_scan_to_db,
+            db, user_id, product_name, health_score, verdict, nutrition, scanned_ing_models
         )
-        db.add(scan_entry)
-        db.commit()
-
-        # Create a notification if the scanned product is unhealthy
-        if verdict == "Unhealthy":
-            notif_message = f"You scanned an unhealthy product: {product_name or 'Unknown'}"
-            notification = models.Notification(
-                user_id=user_id,
-                message=notif_message,
-            )
-            db.add(notification)
-            db.commit()
 
     suggested_alternatives = []
     if verdict == "Unhealthy":
