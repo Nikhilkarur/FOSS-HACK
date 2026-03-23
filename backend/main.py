@@ -24,6 +24,7 @@ import water_routes
 import shipment_routes
 import insights_routes
 import progress_routes
+import level_routes
 
 # Create tables if they don't exist yet
 models.Base.metadata.create_all(bind=engine)
@@ -57,6 +58,7 @@ app.include_router(water_routes.router, prefix="/api")
 app.include_router(shipment_routes.router)
 app.include_router(insights_routes.router, prefix="/api")
 app.include_router(progress_routes.router, prefix="/api")
+app.include_router(level_routes.router, prefix="/api")
 
 
 @app.get("/")
